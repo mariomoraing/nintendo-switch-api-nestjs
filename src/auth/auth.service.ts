@@ -1,6 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
+import { IUserWithoutPassword } from '../users/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -9,10 +11,11 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  // Podría devolver un true en vez de Promise<any> ???
-  async validateUser(username: string, password: string): Promise<any> {
+  
+  async validateUser(username: string, password: string): Promise<IUserWithoutPassword | null> {
     const user = await this.usersService.findOne(username);
-    if (user && user.password === password) { // En producción, usa bcrypt para comparar contraseñas
+
+    if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
       return result;
     }

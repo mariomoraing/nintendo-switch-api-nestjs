@@ -3,3 +3,5 @@ export interface IUser {
     username: string;
     password: string;
 }
+
+export type IUserWithoutPassword = Omit<IUser, 'password'>;
