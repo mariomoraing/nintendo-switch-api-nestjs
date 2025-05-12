@@ -13,7 +13,7 @@ async function bootstrap() {
   app.use(helmet());
 
   const corsOptions: CorsOptions = {
-    origin: ['http://localhost:5173'], // Después usar el frontend,
+    origin: ['http://localhost:5173', 'http://localhost:4200'], // Después usar el frontend,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     preflightContinue: false,
     optionsSuccessStatus: 204
